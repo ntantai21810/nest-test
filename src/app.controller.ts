@@ -1,18 +1,16 @@
-import { Body, Controller, Get, Post, Req, Res } from '@nestjs/common';
-import { AppService } from './app.service';
-import { Request, Response } from 'express';
+import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { CreatePostDto } from './app.dto';
+import { AppService } from './app.service';
+import { AuthGuard } from './auth/auth.guard';
 
 @Controller()
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
+  @UseGuards(AuthGuard)
   @Get()
-  getHello(@Req() req: Request, @Res() res: Response) {
-    const { page, limit } = req.query;
-
-    if (!page || !limit) res.status(400).send({ message: 'Bad request' });
-    else res.status(200).send({ message: 'success' });
+  getHello() {
+    return '123';
   }
 
   @Post('/create')
